@@ -7,8 +7,9 @@ const Header = (props) => {
   )
 }
 const Content = (props) => {
-  const parts = props.parts.map((part, key) =>
-    <Part part={part} key={key} />
+  const shortid = require('shortid');
+  const parts = props.parts.map((part) =>
+    <Part part={part} key={shortid.generate()} />
   )
   return (
     <div>
@@ -28,7 +29,7 @@ const Total = (props) => {
 
 const Part = (props) => {
   return (
-    <p key={props.part.key}>{props.part.name} {props.part.exercises}</p>
+    <p>{props.part.name} {props.part.exercises}</p>
   )
 }
 
