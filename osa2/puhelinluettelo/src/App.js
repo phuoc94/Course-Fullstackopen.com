@@ -22,6 +22,10 @@ const App = () => {
                 //console.log('promise fulfilled')
                 //console.log(initialPersons)
                 setPersons(initialPersons)
+            }).catch(error => {
+                notiHandler(
+                    `cannot load from server`, 'error'
+                )
             })
     }
     useEffect(hook, [])
@@ -32,7 +36,7 @@ const App = () => {
         )
         setTimeout(() => {
             setErrorMessage(null)
-        }, 50000)
+        }, 5000)
     }
 
     const deleteHandler = (id) => {
@@ -125,7 +129,6 @@ const App = () => {
             handleNewNumberChange: handleNewNumberChange
         }
     }
-
     return (
         <div>
             <h2>Phonebook</h2>

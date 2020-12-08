@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "http://localhost:3001/persons";
+const baseUrl = '/api/persons'
 
 const getAll = () => {
     const request = axios.get(baseUrl);
@@ -8,7 +8,8 @@ const getAll = () => {
             return response.data;
         })
         .catch((error) => {
-            console.log("fail", error);
+            console.log("P cannot load", error);
+            return request
         });
 };
 
