@@ -7,10 +7,6 @@ const getAll = () => {
         .then((response) => {
             return response.data;
         })
-        .catch((error) => {
-            console.log("P cannot load", error);
-            return request
-        });
 };
 
 const create = (newObject) => {
@@ -19,9 +15,6 @@ const create = (newObject) => {
         .then((response) => {
             return response.data;
         })
-        .catch((error) => {
-            console.log("fail", error);
-        });
 };
 
 const update = (id, newObject) => {
@@ -30,9 +23,6 @@ const update = (id, newObject) => {
         .then((response) => {
             return response.data;
         })
-        .catch((error) => {
-            return request
-        });
 };
 
 const del = (id) => {

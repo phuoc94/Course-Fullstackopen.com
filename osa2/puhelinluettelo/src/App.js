@@ -72,20 +72,16 @@ const App = () => {
             personsService
                 .create(person)
                 .then(rePersons => {
-                    //console.log(rePersons)
-                    //console.log('new person')
-
                     notiHandler(
                         `Added ${person.name}`, 'success'
                     )
-
                     setPersons(persons.concat(rePersons))
                     setNewName('')
                     setNewNumber('')
                 })
                 .catch(error => {
                     notiHandler(
-                        `cannot add ${person.name}`, 'error'
+                        `${error.response.data.error}`, 'error'
                     )
                 })
 
