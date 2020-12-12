@@ -5,7 +5,11 @@ const blogSchema = new mongoose.Schema({
     author: { type: String },
     title: { type: String, required: true, },
     url: { type: String, required: true, },
-    likes: { type: Number }
+    likes: { type: Number },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
 blogSchema.plugin(uniqueValidator)
 
