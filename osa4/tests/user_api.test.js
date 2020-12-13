@@ -11,7 +11,7 @@ describe('when there is initially one user at db', () => {
         await User.deleteMany({})
 
         const passwordHash = await bcrypt.hash('sekret', 10)
-        const user = new User({ username: 'root', passwordHash })
+        const user = new User({ username: 'roottoor', passwordHash })
 
         await user.save()
     })
@@ -20,7 +20,7 @@ describe('when there is initially one user at db', () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
-            username: 'root',
+            username: 'roottoor',
             name: 'Superuser',
             password: 'salainen',
         }
@@ -35,6 +35,19 @@ describe('when there is initially one user at db', () => {
 
         const usersAtEnd = await helper.usersInDb()
         expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    })
+
+    test('create sort username = 400', async () => {
+        const newUser = {
+            username: 'root',
+            name: 'Superuser',
+            password: 'salainen',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
     })
 
     test('creation succeeds with a fresh username', async () => {
