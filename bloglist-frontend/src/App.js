@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 
 const App = () => {
@@ -13,7 +14,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+      setBlogs(blogs.sort((a, b) => a.likes < b.likes ? 1 : -1))
     )
   }, [])
 
@@ -25,6 +26,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
 
   const notiHandler = (message, type) => {
     setErrorMessage(
@@ -54,13 +56,15 @@ const App = () => {
               {user.name} logged in
               <button onClick={logout}>Logout</button>
             </p>
-            <BlogForm setBlogs={setBlogs} blogs={blogs} notiHandler={notiHandler} />
+            <Togglable buttonLabel='Create new blog'>
+              <BlogForm setBlogs={setBlogs} blogs={blogs} notiHandler={notiHandler} />
+            </Togglable>
           </div>
       }
       {
         user !== null &&
         blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />)
+          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} blogs={blogs} user={user} notiHandler={notiHandler} />)
       }
 
 
