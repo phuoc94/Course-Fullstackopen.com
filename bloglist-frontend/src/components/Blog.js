@@ -4,7 +4,6 @@ import blogService from '../services/blogs'
 
 const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
   const [visible, setVisible] = useState(false)
-  const [blikes, setBlikes] = useState(blog.likes)
 
   const blogStyle = {
     paddingTop: 10,
@@ -17,10 +16,9 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
   const likeHandler = async () => {
     try {
       const id = blog.id
-      const likes = blikes + 1
-      setBlikes(likes)
+      const likes = blog.likes + 1
       const resBlog = await blogService.update({ id }, { likes })
-      blog = { ...blog, likes: resBlog.likes }
+      setBlogs(blogs.map(p => p.id !== blog.id ? p : { ...p, likes: resBlog.likes }))
     } catch (exception) {
       console.log('error', exception)
     }
@@ -44,7 +42,7 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
       <div style={blogStyle}>
         <p>{blog.title} <button onClick={() => setVisible(false)}>hide</button></p>
         <p>{blog.url}</p>
-        <p>likes {blikes} <button onClick={likeHandler}>like</button></p>
+        <p>likes {blog.likes} <button onClick={likeHandler}>like</button></p>
         <p>{blog.author}</p>
         { user.username === blog.user.username && <p><button onClick={deleteBlog}>remove</button></p>}
       </div>
