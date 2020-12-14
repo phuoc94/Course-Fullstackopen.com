@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const BlogForm = ({ setBlogs, blogs, notiHandler }) => {
+const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -19,6 +19,7 @@ const BlogForm = ({ setBlogs, blogs, notiHandler }) => {
             setTitle('')
             setAuthor('')
             setUrl('')
+            FormRef.current.toggleVisibility()
         } catch (exception) {
             notiHandler(`${exception}`, 'error')
         }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Notification from './components/Notification'
@@ -34,13 +34,15 @@ const App = () => {
     )
     setTimeout(() => {
       setErrorMessage(null)
-    }, 5000)
+    }, 50000)
   }
 
   const logout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
   }
+
+  const FormRef = useRef()
 
   return (
     <div>
@@ -56,8 +58,8 @@ const App = () => {
               {user.name} logged in
               <button onClick={logout}>Logout</button>
             </p>
-            <Togglable buttonLabel='Create new blog'>
-              <BlogForm setBlogs={setBlogs} blogs={blogs} notiHandler={notiHandler} />
+            <Togglable buttonLabel='Create new blog' ref={FormRef}>
+              <BlogForm setBlogs={setBlogs} blogs={blogs} notiHandler={notiHandler} FormRef={FormRef} />
             </Togglable>
           </div>
       }
