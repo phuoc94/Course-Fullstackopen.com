@@ -18,8 +18,6 @@ const LoginForm = ({ notiHandler, setUser }) => {
             )
             blogService.setToken(user.token)
             setUser(user)
-            setUsername('')
-            setPassword('')
         } catch (exception) {
             notiHandler('wrong username or password', 'error')
             setPassword('')

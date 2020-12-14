@@ -34,7 +34,7 @@ const App = () => {
     )
     setTimeout(() => {
       setErrorMessage(null)
-    }, 50000)
+    }, 5000)
   }
 
   const logout = () => {
