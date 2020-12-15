@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
+
 
 const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
     const [title, setTitle] = useState('')
@@ -13,15 +15,14 @@ const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
             const blog = await blogService.create({
                 title, author, url
             })
-
             setBlogs(blogs.concat(blog))
-            notiHandler(`a new blog ${title} by ${author} added`, 'success')
+            notiHandler.current.notiHandler(`a new blog ${title} by ${author} added`, 'success')
             setTitle('')
             setAuthor('')
             setUrl('')
             FormRef.current.toggleVisibility()
         } catch (exception) {
-            notiHandler(`${exception}`, 'error')
+            notiHandler.current.notiHandler(`${exception}`, 'error')
         }
     }
 
@@ -58,6 +59,12 @@ const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
             <button type="submit">create</button>
         </form>
     )
+}
+
+BlogForm.prototype = {
+    setBlogs: PropTypes.func.isRequired,
+    notiHandler: PropTypes.func.isRequired,
+    blogs: PropTypes.array.isRequired
 }
 
 export default BlogForm

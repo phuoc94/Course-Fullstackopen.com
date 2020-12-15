@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
+import PropTypes from 'prop-types'
 
 const LoginForm = ({ notiHandler, setUser }) => {
     const [username, setUsername] = useState('')
@@ -19,7 +20,7 @@ const LoginForm = ({ notiHandler, setUser }) => {
             blogService.setToken(user.token)
             setUser(user)
         } catch (exception) {
-            notiHandler('wrong username or password', 'error')
+            notiHandler.current.notiHandler('wrong username or password', 'error')
             setPassword('')
         }
     }
@@ -47,6 +48,10 @@ const LoginForm = ({ notiHandler, setUser }) => {
             <button type="submit">login</button>
         </form>
     )
+}
+LoginForm.prototype = {
+    notiHandler: PropTypes.func.isRequired,
+    setUser: PropTypes.func.isRequired
 }
 
 export default LoginForm

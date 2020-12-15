@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
+
 
 
 const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
@@ -11,6 +13,14 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+
+  if (typeof blog.user === 'string') {
+    blog = {
+      ...blog, user: {
+        username: user.username
+      }
+    }
   }
 
   const likeHandler = async () => {
@@ -29,7 +39,7 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
       try {
         const id = blog.id
         await blogService.remove({ id })
-        notiHandler(`blog ${blog.title} removed`, 'success')
+        notiHandler.current.notiHandler(`blog ${blog.title} removed`, 'success')
         setBlogs(blogs.filter(b => b.id !== id))
       } catch (exception) {
         console.log('error', exception)
@@ -53,5 +63,13 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
       {blog.title} {blog.author} <button onClick={() => setVisible(true)}>view</button>
     </div>
   )
+}
+
+Blog.prototype = {
+  blog: PropTypes.object.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  notiHandler: PropTypes.func.isRequired,
+  blogs: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired
 }
 export default Blog

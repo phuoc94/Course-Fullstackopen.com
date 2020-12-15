@@ -9,7 +9,6 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -28,27 +27,20 @@ const App = () => {
   }, [])
 
 
-  const notiHandler = (message, type) => {
-    setErrorMessage(
-      [message, type]
-    )
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
-  }
-
   const logout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
   }
 
   const FormRef = useRef()
+  const notiHandler = useRef()
+
 
   return (
     <div>
       <h2>blogs</h2>
 
-      <Notification emessage={errorMessage} />
+      <Notification ref={notiHandler} />
 
       {
         user === null

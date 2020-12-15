@@ -1,6 +1,23 @@
-import React from 'react'
+import React, { useState, useImperativeHandle } from 'react'
 
-const Notification = ({ emessage }) => {
+const Notification = React.forwardRef((props, ref) => {
+    const [emessage, setErrorMessage] = useState(null)
+
+    const notiHandler = (message, type) => {
+        setErrorMessage(
+            [message, type]
+        )
+        setTimeout(() => {
+            setErrorMessage(null)
+        }, 5000)
+    }
+
+    useImperativeHandle(ref, () => {
+        return {
+            notiHandler
+        }
+    })
+
     if (!emessage) {
         return null
     } else {
@@ -26,8 +43,6 @@ const Notification = ({ emessage }) => {
             )
         }
     }
-
-
-}
+})
 
 export default Notification
