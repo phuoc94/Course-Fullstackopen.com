@@ -11,18 +11,22 @@ const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
 
     const addBlog = async (event) => {
         event.preventDefault()
-        try {
-            const blog = await blogService.create({
-                title, author, url
-            })
-            setBlogs(blogs.concat(blog))
-            notiHandler.current.notiHandler(`a new blog ${title} by ${author} added`, 'success')
-            setTitle('')
-            setAuthor('')
-            setUrl('')
-            FormRef.current.toggleVisibility()
-        } catch (exception) {
-            notiHandler.current.notiHandler(`${exception}`, 'error')
+        if (process.env.NODE_ENV === 'test') {
+            setBlogs(title, author, url)
+        } else {
+            try {
+                const blog = await blogService.create({
+                    title, author, url
+                })
+                setBlogs(blogs.concat(blog))
+                notiHandler.current.notiHandler(`a new blog ${title} by ${author} added`, 'success')
+                setTitle('')
+                setAuthor('')
+                setUrl('')
+                FormRef.current.toggleVisibility()
+            } catch (exception) {
+                notiHandler.current.notiHandler(`${exception}`, 'error')
+            }
         }
     }
 

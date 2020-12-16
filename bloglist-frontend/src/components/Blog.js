@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 
 const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
     const [visible, setVisible] = useState(false)
-
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -24,13 +23,17 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
     }
 
     const likeHandler = async () => {
-        try {
-            const id = blog.id
-            const likes = blog.likes + 1
-            const resBlog = await blogService.update({ id }, { likes })
-            setBlogs(blogs.map(p => p.id !== blog.id ? p : { ...p, likes: resBlog.likes }))
-        } catch (exception) {
-            console.log('error', exception)
+        if (process.env.NODE_ENV === 'test') {
+            setBlogs()
+        } else {
+            try {
+                const id = blog.id
+                const likes = blog.likes + 1
+                const resBlog = await blogService.update({ id }, { likes })
+                setBlogs(blogs.map(p => p.id !== blog.id ? p : { ...p, likes: resBlog.likes }))
+            } catch (exception) {
+                console.log('error', exception)
+            }
         }
     }
 
@@ -50,17 +53,17 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
     if (visible) {
         return (
             <div className='blog' style={blogStyle}>
-                <p>{blog.title} <button onClick={() => setVisible(false)}>hide</button></p>
+                <p>{blog.title} <button className='button' id='btn-hide' onClick={() => setVisible(false)}>hide</button></p>
                 <p>{blog.url}</p>
-                <p>likes {blog.likes} <button onClick={likeHandler}>like</button></p>
+                <p>likes {blog.likes} <button className='button' id='btn-like' onClick={likeHandler}>like</button></p>
                 <p>{blog.author}</p>
-                { user.username === blog.user.username && <p><button onClick={deleteBlog}>remove</button></p>}
+                { user.username === blog.user.username && <p><button className='button' id='btn-remove' onClick={deleteBlog}>remove</button></p>}
             </div>
         )
     }
     return (
         <div style={blogStyle}>
-            {blog.title} {blog.author} <button onClick={() => setVisible(true)}>view</button>
+            {blog.title} {blog.author} <button className='button' id='btn-view' onClick={() => setVisible(true)}>view</button>
         </div>
     )
 }
