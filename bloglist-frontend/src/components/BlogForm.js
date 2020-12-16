@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
 
-const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
+const BlogForm = ({ setBlogs, blogs, user, notiHandler, FormRef }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -18,7 +18,12 @@ const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
                 const blog = await blogService.create({
                     title, author, url
                 })
-                setBlogs(blogs.concat(blog))
+                const nblog = {
+                    ...blog, user: {
+                        username: user.username
+                    }
+                }
+                setBlogs(blogs.concat(nblog))
                 notiHandler.current.notiHandler(`a new blog ${title} by ${author} added`, 'success')
                 setTitle('')
                 setAuthor('')
@@ -38,7 +43,7 @@ const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
                 <input
                     type="text"
                     value={title}
-                    name="title"
+                    id="title"
                     onChange={({ target }) => setTitle(target.value)}
                 />
             </div>
@@ -47,7 +52,7 @@ const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
                 <input
                     type="text"
                     value={author}
-                    name="author"
+                    id="author"
                     onChange={({ target }) => setAuthor(target.value)}
                 />
             </div>
@@ -56,11 +61,11 @@ const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
                 <input
                     type="text"
                     value={url}
-                    name="url"
+                    id="url"
                     onChange={({ target }) => setUrl(target.value)}
                 />
             </div>
-            <button type="submit">create</button>
+            <button id="create-button" type="submit">create</button>
         </form>
     )
 }

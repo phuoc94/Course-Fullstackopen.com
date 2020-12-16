@@ -14,14 +14,6 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
         marginBottom: 5
     }
 
-    if (typeof blog.user === 'string') {
-        blog = {
-            ...blog, user: {
-                username: user.username
-            }
-        }
-    }
-
     const likeHandler = async () => {
         if (process.env.NODE_ENV === 'test') {
             setBlogs()
@@ -62,7 +54,7 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
         )
     }
     return (
-        <div style={blogStyle}>
+        <div className='blog' style={blogStyle}>
             {blog.title} {blog.author} <button className='button' id='btn-view' onClick={() => setVisible(true)}>view</button>
         </div>
     )
