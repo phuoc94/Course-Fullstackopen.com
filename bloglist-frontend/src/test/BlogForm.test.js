@@ -20,8 +20,8 @@ test('renders blog', () => {
     const form = component.container.querySelector('form')
     fireEvent.submit(form)
     expect(createBlog.mock.calls).toHaveLength(1)
-    expect(createBlog.mock.calls[0][0]).toBe('titletest')
-    expect(createBlog.mock.calls[0][1]).toBe('authortest')
-    expect(createBlog.mock.calls[0][2]).toBe('urltest')
+    expect(createBlog.mock.calls[0][0].title).toBe('titletest')
+    expect(createBlog.mock.calls[0][0].author).toBe('authortest')
+    expect(createBlog.mock.calls[0][0].url).toBe('urltest')
 
 })

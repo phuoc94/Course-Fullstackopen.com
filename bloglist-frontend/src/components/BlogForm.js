@@ -12,7 +12,7 @@ const BlogForm = ({ setBlogs, blogs, notiHandler, FormRef }) => {
     const addBlog = async (event) => {
         event.preventDefault()
         if (process.env.NODE_ENV === 'test') {
-            setBlogs(title, author, url)
+            setBlogs({ title, author, url })
         } else {
             try {
                 const blog = await blogService.create({
