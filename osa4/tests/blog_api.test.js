@@ -6,7 +6,6 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 
 const initialBlogs = [...helper.initialBlogs]
-
 beforeEach(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(initialBlogs)
@@ -38,7 +37,6 @@ test('the first blog title is String', async () => {
     )
 })
 
-/* need JWT token
 test('a valid blog can be added ', async () => {
     const newBlog = {
         author: 'async',
@@ -46,9 +44,10 @@ test('a valid blog can be added ', async () => {
         url: 'added',
         likes: 1
     }
-
+    const token = await helper.token()
     await api
         .post('/api/blogs')
+        .set({Authorization:'bearer ' + token})
         .send(newBlog)
         .expect(200)
         .expect('Content-Type', /application\/json/)
@@ -62,7 +61,6 @@ test('a valid blog can be added ', async () => {
         'await'
     )
 })
-*/
 
 test('create blog without token = 401 ', async () => {
     const newBlog = {
@@ -80,16 +78,16 @@ test('create blog without token = 401 ', async () => {
 
 })
 
-/* need JWT token
 test('like is 0 if not post likes', async () => {
     const newBlog = {
         author: 'like',
         title: 'post',
         url: 'likes',
     }
-
+    const token = await helper.token()
     await api
         .post('/api/blogs')
+        .set({Authorization:'bearer ' + token})
         .send(newBlog)
         .expect(200)
         .expect('Content-Type', /application\/json/)
@@ -108,9 +106,10 @@ test('blog without title is not added', async () => {
         url: 'added',
         likes: 1
     }
-
+    const token = await helper.token()
     await api
         .post('/api/blogs')
+        .set({Authorization:'bearer ' + token})
         .send(newBlog)
         .expect(400)
 
@@ -125,9 +124,10 @@ test('blog without url is not added', async () => {
         title: 'added',
         likes: 1
     }
-
+    const token = await helper.token()
     await api
         .post('/api/blogs')
+        .set({Authorization:'bearer ' + token})
         .send(newBlog)
         .expect(400)
 
@@ -135,7 +135,6 @@ test('blog without url is not added', async () => {
 
     expect(blogsAtEnd).toHaveLength(initialBlogs.length)
 })
-*/
 
 test('a specific blog can be viewed', async () => {
     const blogsAtStart = await helper.blogsInDb()
