@@ -46,7 +46,7 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
         return (
             <div className='blog' style={blogStyle}>
                 <p>{blog.title} <button className='button' id='btn-hide' onClick={() => setVisible(false)}>hide</button></p>
-                <p>{blog.url}</p>
+                <p><a href={blog.url}>{blog.url}</a></p>
                 <p>likes {blog.likes} <button className='button' id='btn-like' onClick={likeHandler}>like</button></p>
                 <p>{blog.author}</p>
                 { user.username === blog.user.username && <p><button className='button' id='btn-remove' onClick={deleteBlog}>remove</button></p>}
