@@ -44,7 +44,7 @@ const App = () => {
 
             {
                 user === null
-                    ? <LoginForm setUser={setUser} notiHandler={notiHandler} />
+                    ? <Togglable buttonLabel='login'><LoginForm setUser={setUser} notiHandler={notiHandler} /></Togglable>
                     : <div>
                         <p>
                             {user.name} logged in
