@@ -44,6 +44,7 @@ const BlogForm = ({ setBlogs, blogs, user, notiHandler, FormRef }) => {
                     type="text"
                     value={title}
                     id="title"
+                    name="title"
                     onChange={({ target }) => setTitle(target.value)}
                 />
             </div>
@@ -53,6 +54,7 @@ const BlogForm = ({ setBlogs, blogs, user, notiHandler, FormRef }) => {
                     type="text"
                     value={author}
                     id="author"
+                    name="author"
                     onChange={({ target }) => setAuthor(target.value)}
                 />
             </div>
@@ -62,6 +64,7 @@ const BlogForm = ({ setBlogs, blogs, user, notiHandler, FormRef }) => {
                     type="text"
                     value={url}
                     id="url"
+                    name="url"
                     onChange={({ target }) => setUrl(target.value)}
                 />
             </div>
