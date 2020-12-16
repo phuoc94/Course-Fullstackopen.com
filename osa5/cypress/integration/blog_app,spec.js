@@ -100,15 +100,15 @@ describe('Blog ', function () {
                 cy.createBlog({ title: 'title3',  author: 'author3', url: 'url3' })
             })
             it('check blogs order', function() {
-              // like second blog
-              cy.contains('title2 author2')
-                .contains('view').click()
-              cy.contains('like').click()
-              // refres site
-              cy.visit('http://localhost:3000')
-              // is first blogs liked
-              cy.contains('view').click()
-              cy.contains('likes 1')
+                // like second blog
+                cy.contains('title2 author2')
+                    .contains('view').click()
+                cy.contains('like').click()
+                // refres site
+                cy.visit('http://localhost:3000')
+                // is first blogs liked
+                cy.contains('view').click()
+                cy.contains('likes 1')
             })
 
 
