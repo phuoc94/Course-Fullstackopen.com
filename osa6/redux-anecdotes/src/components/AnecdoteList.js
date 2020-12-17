@@ -1,11 +1,14 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { voteAnec } from '../reducers/anecdoteReducer'
+import { setMessage } from '../reducers/notificationReducer'
+
 
 const AnecdoteList = () => {
-    const notSortedanecdotes = useSelector(state => state)
-
-    const anecdotes = notSortedanecdotes.sort((a, b) => {
+    const notSortedanecdotes = useSelector(state => {
+        return state.dotes.filter(d => d.content.includes(state.filter))
+    })
+    const notfiltered = notSortedanecdotes.sort((a, b) => {
         if(a.votes === b.votes){
             return 0
         } else if( a.votes < b.votes){
@@ -14,13 +17,15 @@ const AnecdoteList = () => {
             return -1
         }
     })
-
+    const anecdotes = notfiltered
     const dispatch = useDispatch()
-
+    
     const vote = (id) => {
-        console.log('vote', id)
         dispatch(voteAnec(id))
-      }
+        const finded = anecdotes.find(x => x.id === id)
+        const message = `you voted '${finded.content}'`
+        dispatch(setMessage(message))
+    }
 
     return(
         <>
