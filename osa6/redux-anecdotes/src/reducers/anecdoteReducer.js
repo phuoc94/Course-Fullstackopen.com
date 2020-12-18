@@ -1,23 +1,37 @@
+import anecdotesService from '../service/anecdotes'
+import { setMessage } from '../reducers/notificationReducer'
 
 
 export const createAnec = (data) => {
-  return {
-    type: 'CREATE',
-    data
+  return async dispatch => {
+    const newAnec = await anecdotesService.createNew(data)
+    dispatch(setMessage(`you created ${data}`, 5))
+    dispatch({
+      type: 'CREATE',
+      data: newAnec
+    })
   }
 }
 
 export const voteAnec = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id }
+  return async dispatch => {
+    await anecdotesService.like(id)
+    const dotes = await anecdotesService.getById(id)
+    dispatch(setMessage(`you voted '${dotes.content}'`, 10))
+    dispatch({
+      type: 'VOTE',
+      data: {id},
+    })
   }
 }
 
-export const initializeAnec = (dotes) => {
-  return {
-    type: 'INIT_DOTES',
-    data: dotes,
+export const initializeAnec = () => {
+  return async dispatch => {
+    const dotes = await anecdotesService.getAll()
+    dispatch({
+      type: 'INIT_DOTES',
+      data: dotes,
+    })
   }
 }
 

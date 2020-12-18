@@ -6,6 +6,10 @@ const getAll = async () => {
   const response = await axios.get(baseUrl)
   return response.data
 }
+const getById = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`)
+  return response.data
+}
 
 const createNew = async (content) => {
     const object = { content, votes: 0 }
@@ -20,4 +24,4 @@ const like = async (id) => {
     return response.data
   }
 
-export default { getAll, createNew, like }
+export default { getAll, createNew, like, getById }

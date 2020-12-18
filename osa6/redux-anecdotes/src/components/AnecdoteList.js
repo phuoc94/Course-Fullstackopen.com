@@ -1,8 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { voteAnec } from '../reducers/anecdoteReducer'
-import { setMessage } from '../reducers/notificationReducer'
-import anecdotesService from '../service/anecdotes'
 
 
 const AnecdoteList = () => {
@@ -22,11 +20,7 @@ const AnecdoteList = () => {
     const dispatch = useDispatch()
     
     const vote = async(id) => {
-        await anecdotesService.like(id)
         dispatch(voteAnec(id))
-        const finded = anecdotes.find(x => x.id === id)
-        const message = `you voted '${finded.content}'`
-        dispatch(setMessage(message))
     }
 
     return(
