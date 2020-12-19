@@ -1,10 +1,13 @@
+let notiTimeout
+
 export const setMessage = (message, time) => {
     return async dispatch => {
       dispatch({
         type: 'SET_MESSAGE',
         message,
       })
-      setTimeout(() => {
+      clearTimeout(notiTimeout)
+      notiTimeout = setTimeout(() => {
         dispatch({
           type: 'SET_MESSAGE',
           message: null,
