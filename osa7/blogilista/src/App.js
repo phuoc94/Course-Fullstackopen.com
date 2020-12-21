@@ -1,70 +1,44 @@
-import React, { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
-import blogService from './services/blogs'
+import React, {  useEffect } from 'react'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Blogs from './components/Blogs'
 import Togglable from './components/Togglable'
-
+import { initializeBlogs } from './reducer/blogsReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { userIsIn, userLogout } from './reducer/userReducer'
 
 const App = () => {
-    const [blogs, setBlogs] = useState([])
-    const [user, setUser] = useState(null)
-
+    const dispatch = useDispatch()
     useEffect(() => {
-        blogService.getAll().then(blogs =>
-            setBlogs(blogs.sort((a, b) => a.likes < b.likes ? 1 : -1))
-        )
-    }, [])
+        dispatch(initializeBlogs())
+        dispatch(userIsIn())
+    },[dispatch])
 
-    useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-        if (loggedUserJSON) {
-            const user = JSON.parse(loggedUserJSON)
-            setUser(user)
-            blogService.setToken(user.token)
-        }
-    }, [])
-
-
-    const logout = () => {
-        window.localStorage.removeItem('loggedBlogappUser')
-        setUser(null)
-    }
-
-    const FormRef = useRef()
-    const notiHandler = useRef()
-
+    const user = useSelector(state => state.user)
 
     return (
         <div className="container mx-auto px-4 min-h-screen max-w-screen-lg">
             <h2 className="text-7xl flex justify-center mb-5">Blogs</h2>
-            <Notification ref={notiHandler} />
-
+            <Notification />
             {
                 user === null
-                    ? <div className="h-96 flex items-center justify-center"><Togglable buttonLabel='login'><LoginForm setUser={setUser} notiHandler={notiHandler} /></Togglable></div>
+                    ? <div className="h-96 flex items-center justify-center"><Togglable buttonLabel='login'><LoginForm /></Togglable></div>
                     : <div className="flex justify-between">
                         <div className="py-4 order-2">
                             <span className="py-2 mx-5 text-xl">Welcome {user.name}!</span>
-                            <button onClick={logout}
+                            <button onClick={() => dispatch(userLogout())}
                                 className="bg-red-700 py-2 px-4 rounded-lg text-white"
                             >Logout</button>
                         </div>
                         <div>
-                            <Togglable buttonLabel='Create new blog' ref={FormRef}>
-                                <BlogForm setBlogs={setBlogs} blogs={blogs} user={user} notiHandler={notiHandler} FormRef={FormRef} />
+                            <Togglable buttonLabel='Create new blog'>
+                                <BlogForm />
                             </Togglable>
                         </div>
                     </div>
             }
-            {
-                user !== null &&
-        blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} setBlogs={setBlogs} blogs={blogs} user={user} notiHandler={notiHandler} />)
-            }
-
-
+            { user && <Blogs />}
         </div>
     )
 }

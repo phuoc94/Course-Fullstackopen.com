@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { userLogin } from '../reducer/userReducer'
+import { setMessage } from '../reducer/notificationReducer'
 
-const LoginForm = ({ notiHandler, setUser }) => {
+const LoginForm = () => {
+    const dispatch = useDispatch()
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -18,9 +23,12 @@ const LoginForm = ({ notiHandler, setUser }) => {
                 'loggedBlogappUser', JSON.stringify(user)
             )
             blogService.setToken(user.token)
-            setUser(user)
+            console.log(user)
+            dispatch(userLogin(user))
+
         } catch (exception) {
-            notiHandler.current.notiHandler('wrong username or password', 'error')
+            console.log(exception)
+            dispatch(setMessage('wrong username or password', 'error' , 5))
             setPassword('')
         }
     }

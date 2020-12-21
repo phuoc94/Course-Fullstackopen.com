@@ -1,50 +1,19 @@
-import React, { useState, useImperativeHandle } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 
-const Notification = React.forwardRef((props, ref) => {
-    const [emessage, setErrorMessage] = useState(null)
+const Notification = () => {
+    const notification = useSelector(state => state.message)
 
-    const notiHandler = (message, type) => {
-        setErrorMessage(
-            [message, type]
+    if(notification){
+        return (
+            <div className={ notification[1] === 'error'
+                ? 'bg-red-700 text-white px-4 py-2 flex justify-center rounded'
+                : 'bg-green-700 text-white px-4 py-2 flex justify-center rounded' }>
+                {notification[0]}
+            </div>
         )
-        setTimeout(() => {
-            setErrorMessage(null)
-        }, 5000)
     }
-
-    useImperativeHandle(ref, () => {
-        return {
-            notiHandler
-        }
-    })
-
-    if (!emessage) {
-        return null
-    } else {
-        const message = emessage[0]
-        const type = emessage[1]
-        if (type === 'error') {
-            return (
-                <div className="bg-red-700 text-white px-4 py-2 flex justify-center rounded">
-                    {message}
-                </div>
-            )
-        } else if (type === 'success') {
-            return (
-                <div className="bg-green-700 text-white px-4 py-2 flex justify-center rounded">
-                    {message}
-                </div>
-            )
-        } else {
-            return (
-                <div>
-                    {message}
-                </div>
-            )
-        }
-    }
-})
-
-Notification.displayName = 'Notification'
+    return <></>
+}
 
 export default Notification
