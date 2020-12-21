@@ -6,15 +6,9 @@ import PropTypes from 'prop-types'
 
 const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
     const [visible, setVisible] = useState(false)
-    const blogStyle = {
-        paddingTop: 10,
-        paddingLeft: 2,
-        border: 'solid',
-        borderWidth: 1,
-        marginBottom: 5
-    }
 
-    const likeHandler = async () => {
+    const likeHandler = async (event) => {
+        event.stopPropagation()
         if (process.env.NODE_ENV === 'test') {
             setBlogs()
         } else {
@@ -29,7 +23,8 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
         }
     }
 
-    const deleteBlog = async () => {
+    const deleteBlog = async (event) => {
+        event.stopPropagation()
         if (window.confirm(`remove blog ${blog.title}`)) {
             try {
                 const id = blog.id
@@ -44,19 +39,26 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
 
     if (visible) {
         return (
-            <div className='blog' style={blogStyle}>
-                <p>{blog.title} <button className='button' id='btn-hide' onClick={() => setVisible(false)}>hide</button></p>
-                <p><a href={blog.url}>{blog.url}</a></p>
-                <p>likes {blog.likes} <button className='button' id='btn-like' onClick={likeHandler}>like</button></p>
-                <p>{blog.author}</p>
-                { user.username === blog.user.username && <p><button className='button' id='btn-remove' onClick={deleteBlog}>remove</button></p>}
+            <div className='px-4 py-2 my-4
+            bg-gray-200 rounded border-2 shadow-lg w-full' onClick={() => setVisible(false)}>
+                <p className="text-xl">{blog.title}</p>
+                <p className="text-blue-500"><a href={blog.url}>{blog.url}</a></p>
+                <p>likes {blog.likes} <button id='btn-like' onClick={likeHandler}
+                    className="bg-green-300 my-1 py-1 px-2 rounded"
+                >like</button></p>
+                <p>by {blog.author}</p>
+                { user.username === blog.user.username && <p><button id='btn-remove' onClick={deleteBlog}
+                    className="bg-red-600 my-1 py-1 px-2 rounded text-white"
+                >remove</button></p>}
             </div>
         )
     }
     return (
-        <div className='blog' style={blogStyle}>
-            {blog.title} {blog.author} <button className='button' id='btn-view' onClick={() => setVisible(true)}>view</button>
-        </div>
+        <button className='flex justify-between px-4 py-2 my-4
+        bg-gray-200 rounded border-2 shadow-lg w-full
+        ' onClick={() => setVisible(true)}>
+            {blog.title}
+        </button>
     )
 }
 

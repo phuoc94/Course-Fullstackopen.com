@@ -27,27 +27,35 @@ const LoginForm = ({ notiHandler, setUser }) => {
 
     return (
         <form onSubmit={handleLogin}>
-            <div>
-                username
+            <div className="py-2 w-60">
+                <span className="px-1">Username</span>
                 <input
                     type="text"
                     id='username'
                     value={username}
                     name="Username"
                     onChange={({ target }) => setUsername(target.value)}
+                    className="
+                    text-xs block px-4 py-2  rounded-lg w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md
+                    "
                 />
             </div>
-            <div>
-                password
+            <div className="py-2">
+                <span className="px-1">Password</span>
                 <input
                     type="password"
                     id='password'
                     value={password}
                     name="Password"
                     onChange={({ target }) => setPassword(target.value)}
+                    className="
+                    text-xs block px-4 py-2  rounded-lg w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md
+                    "
                 />
             </div>
-            <button id="login-button" type="submit">login</button>
+            <button id="login-button" type="submit"
+                className="bg-green-300 my-2 py-2 px-4 rounded w-full"
+            >login</button>
         </form>
     )
 }

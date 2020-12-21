@@ -25,13 +25,13 @@ const Notification = React.forwardRef((props, ref) => {
         const type = emessage[1]
         if (type === 'error') {
             return (
-                <div className="error">
+                <div className="bg-red-700 text-white px-4 py-2 flex justify-center rounded">
                     {message}
                 </div>
             )
         } else if (type === 'success') {
             return (
-                <div className="success">
+                <div className="bg-green-700 text-white px-4 py-2 flex justify-center rounded">
                     {message}
                 </div>
             )

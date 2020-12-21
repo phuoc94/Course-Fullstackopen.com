@@ -37,22 +37,25 @@ const App = () => {
 
 
     return (
-        <div>
-            <h2>blogs</h2>
-
+        <div className="container mx-auto px-4 min-h-screen max-w-screen-lg">
+            <h2 className="text-7xl flex justify-center mb-5">Blogs</h2>
             <Notification ref={notiHandler} />
 
             {
                 user === null
-                    ? <Togglable buttonLabel='login'><LoginForm setUser={setUser} notiHandler={notiHandler} /></Togglable>
-                    : <div>
-                        <p>
-                            {user.name} logged in
-                            <button onClick={logout}>Logout</button>
-                        </p>
-                        <Togglable buttonLabel='Create new blog' ref={FormRef}>
-                            <BlogForm setBlogs={setBlogs} blogs={blogs} user={user} notiHandler={notiHandler} FormRef={FormRef} />
-                        </Togglable>
+                    ? <div className="h-96 flex items-center justify-center"><Togglable buttonLabel='login'><LoginForm setUser={setUser} notiHandler={notiHandler} /></Togglable></div>
+                    : <div className="flex justify-between">
+                        <div className="py-4 order-2">
+                            <span className="py-2 mx-5 text-xl">Welcome {user.name}!</span>
+                            <button onClick={logout}
+                                className="bg-red-700 py-2 px-4 rounded-lg text-white"
+                            >Logout</button>
+                        </div>
+                        <div>
+                            <Togglable buttonLabel='Create new blog' ref={FormRef}>
+                                <BlogForm setBlogs={setBlogs} blogs={blogs} user={user} notiHandler={notiHandler} FormRef={FormRef} />
+                            </Togglable>
+                        </div>
                     </div>
             }
             {

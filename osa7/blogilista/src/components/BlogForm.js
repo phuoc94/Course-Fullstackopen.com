@@ -37,38 +37,43 @@ const BlogForm = ({ setBlogs, blogs, user, notiHandler, FormRef }) => {
 
     return (
         <form onSubmit={addBlog}>
-            <div>
-                <h2>Create new blog</h2>
-                title:
+            <div className="grid grid-cols-4 gap-4">
+                <h2 className="col-span-4 flex justify-self-center text-2xl">Create new blog</h2>
+                <span>Title:</span>
                 <input
                     type="text"
                     value={title}
                     id="title"
                     name="title"
                     onChange={({ target }) => setTitle(target.value)}
+                    className="col-span-3
+                    text-xs block px-4 py-2  rounded w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md"
                 />
-            </div>
-            <div>
-                author:
+                <span >Author: </span>
                 <input
                     type="text"
                     value={author}
                     id="author"
                     name="author"
                     onChange={({ target }) => setAuthor(target.value)}
+                    className="col-span-3
+                    text-xs block px-4 py-2 rounded w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md"
+
                 />
-            </div>
-            <div>
-                url:
+                <span>Url:</span>
                 <input
                     type="text"
                     value={url}
                     id="url"
                     name="url"
                     onChange={({ target }) => setUrl(target.value)}
+                    className="col-span-3
+                    text-xs block px-4 py-2  rounded w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md"
                 />
+                <button id="create-button" type="submit"
+                    className="bg-green-300 my-2 py-2 px-4 rounded w-full col-span-4"
+                >create</button>
             </div>
-            <button id="create-button" type="submit">create</button>
         </form>
     )
 }
