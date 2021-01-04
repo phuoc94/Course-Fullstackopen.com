@@ -1,25 +1,22 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMessage } from '../reducer/notificationReducer'
+import { likeBlog, removeBlog } from '../reducer/blogsReducer'
 
 
+const Blog = ({ blog }) => {
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
 
-const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
     const [visible, setVisible] = useState(false)
 
     const likeHandler = async (event) => {
         event.stopPropagation()
-        if (process.env.NODE_ENV === 'test') {
-            setBlogs()
-        } else {
-            try {
-                const id = blog.id
-                const likes = blog.likes + 1
-                const resBlog = await blogService.update({ id }, { likes })
-                setBlogs(blogs.map(p => p.id !== blog.id ? p : { ...p, likes: resBlog.likes }))
-            } catch (exception) {
-                console.log('error', exception)
-            }
+        try {
+            dispatch(likeBlog(blog.id))
+        } catch (exception) {
+            dispatch(setMessage(`${exception}`, 'error' , 5))
         }
     }
 
@@ -27,12 +24,9 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
         event.stopPropagation()
         if (window.confirm(`remove blog ${blog.title}`)) {
             try {
-                const id = blog.id
-                await blogService.remove({ id })
-                notiHandler.current.notiHandler(`blog ${blog.title} removed`, 'success')
-                setBlogs(blogs.filter(b => b.id !== id))
+                dispatch(removeBlog(blog.id))
             } catch (exception) {
-                console.log('error', exception)
+                dispatch(setMessage(`${exception}`, 'error' , 5))
             }
         }
     }
@@ -65,7 +59,6 @@ const Blog = ({ blog, setBlogs, blogs, user, notiHandler }) => {
 Blog.prototype = {
     blog: PropTypes.object.isRequired,
     setBlogs: PropTypes.func.isRequired,
-    notiHandler: PropTypes.func.isRequired,
     blogs: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired
 }

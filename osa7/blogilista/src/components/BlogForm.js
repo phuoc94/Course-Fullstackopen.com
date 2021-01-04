@@ -1,37 +1,26 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
-import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducer/blogsReducer'
 
 
-const BlogForm = ({ setBlogs, blogs, user, notiHandler, FormRef }) => {
+
+const BlogForm = () => {
+
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
+    const dispatch = useDispatch()
 
     const addBlog = async (event) => {
         event.preventDefault()
-        if (process.env.NODE_ENV === 'test') {
-            setBlogs({ title, author, url })
-        } else {
-            try {
-                const blog = await blogService.create({
-                    title, author, url
-                })
-                const nblog = {
-                    ...blog, user: {
-                        username: user.username
-                    }
-                }
-                setBlogs(blogs.concat(nblog))
-                notiHandler.current.notiHandler(`a new blog ${title} by ${author} added`, 'success')
-                setTitle('')
-                setAuthor('')
-                setUrl('')
-                FormRef.current.toggleVisibility()
-            } catch (exception) {
-                notiHandler.current.notiHandler(`${exception}`, 'error')
-            }
+        try {
+            dispatch(createBlog({ title, author, url }))
+            setTitle('')
+            setAuthor('')
+            setUrl('')
+        } catch (exception) {
+            console.log(exception)
         }
     }
 
@@ -76,12 +65,6 @@ const BlogForm = ({ setBlogs, blogs, user, notiHandler, FormRef }) => {
             </div>
         </form>
     )
-}
-
-BlogForm.prototype = {
-    setBlogs: PropTypes.func.isRequired,
-    notiHandler: PropTypes.func.isRequired,
-    blogs: PropTypes.array.isRequired
 }
 
 export default BlogForm

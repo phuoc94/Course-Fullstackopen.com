@@ -23,11 +23,9 @@ const LoginForm = () => {
                 'loggedBlogappUser', JSON.stringify(user)
             )
             blogService.setToken(user.token)
-            console.log(user)
             dispatch(userLogin(user))
 
         } catch (exception) {
-            console.log(exception)
             dispatch(setMessage('wrong username or password', 'error' , 5))
             setPassword('')
         }
@@ -68,7 +66,6 @@ const LoginForm = () => {
     )
 }
 LoginForm.prototype = {
-    notiHandler: PropTypes.func.isRequired,
     setUser: PropTypes.func.isRequired
 }
 

@@ -1,5 +1,4 @@
 export const userLogin = (user) => {
-    console.log(user)
     return async dispatch => {
         dispatch({
             type: 'LOGIN',
