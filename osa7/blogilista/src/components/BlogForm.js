@@ -26,7 +26,7 @@ const BlogForm = () => {
 
     return (
         <form onSubmit={addBlog}>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 gap-4 w-1/3">
                 <h2 className="col-span-4 flex justify-self-center text-2xl">Create new blog</h2>
                 <span>Title:</span>
                 <input
