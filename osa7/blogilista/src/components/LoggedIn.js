@@ -7,8 +7,10 @@ import Togglable from './Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLogout } from '../reducer/userReducer'
 import Users from './Users'
+import User from './User'
 
-function LoggedIn() {
+
+const LoggedIn = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     return (
@@ -30,6 +32,9 @@ function LoggedIn() {
             <Switch>
                 <Route path="/blogs/:id">
                     <Blog/>
+                </Route>
+                <Route path="/users/:id">
+                    <User/>
                 </Route>
                 <Route path="/users">
                     <Users/>

@@ -2,7 +2,6 @@ import blogService from '../services/blogs'
 import { setMessage } from './notificationReducer'
 
 export const createBlog = (data) => {
-    console.log(data)
     const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
 
     return async dispatch => {
@@ -10,7 +9,7 @@ export const createBlog = (data) => {
         const newBlog = await blogService.create(data)
         const nblog = {
             ...newBlog, user: {
-                username: user.username
+                username: user.username,
             }
         }
         dispatch(setMessage(`you created ${data.title}`,'success', 5))
@@ -60,9 +59,7 @@ export const initializeBlogs = () => {
 const blogsReducer = (state = [], action) => {
     switch (action.type) {
     case 'CREATE':{
-        console.log(action.data)
         return state.concat(action.data)
-        //return state
     }
     case 'INIT_BLOGS':
         return action.data
@@ -76,7 +73,6 @@ const blogsReducer = (state = [], action) => {
         const changedBlog = {
             ...blogChange, likes: blogChange.likes + 1
         }
-        console.log(changedBlog)
         return state.map(x =>
             x.id !== id ? x : changedBlog
         )
