@@ -55,7 +55,7 @@ const Blog = ({ blog }) => {
         return (
             <div className='px-4 py-2 my-4
             bg-gray-200 rounded border-2 shadow-lg w-full' onClick={() => setVisible(false)}>
-                <Link to={`/blogs/${blog.id}`} className="text-xl">{blog.title}</Link>
+                <Link to={`/blogs/${blog.id}`} className="text-xl text-blue-500">{blog.title}</Link>
                 <p className="text-blue-500" onClick={(e) => e.stopPropagation()}><a href={blog.url}>{blog.url}</a></p>
                 <p>likes {blog.likes} <button id='btn-like' onClick={likeHandler}
                     className="bg-green-300 my-1 py-1 px-2 rounded"
