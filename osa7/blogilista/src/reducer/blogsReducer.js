@@ -20,6 +20,17 @@ export const createBlog = (data) => {
     }
 }
 
+export const commentBlog = (id, comment) => {
+    return async dispatch => {
+        await blogService.comment(id, { comment })
+        dispatch(setMessage(`you commend '${comment}'`,'success', 10))
+        dispatch({
+            type: 'COMMENT',
+            data: { id, comment },
+        })
+    }
+}
+
 export const likeBlog = (id) => {
     return async dispatch => {
         const blog = await blogService.getById(id)
@@ -66,6 +77,17 @@ const blogsReducer = (state = [], action) => {
     case 'REMOVE':{
         const id = action.data.id
         return state.filter(x => x.id !== id)
+    }
+    case 'COMMENT':{
+        const id = action.data.id
+        const blogChange = state.find(x => x.id === id)
+        const changedBlog = {
+            ...blogChange, comments: blogChange.comments.concat(action.data.comment)
+        }
+
+        return state.map(x =>
+            x.id !== id ? x : changedBlog
+        )
     }
     case 'LIKE': {
         const id = action.data.id

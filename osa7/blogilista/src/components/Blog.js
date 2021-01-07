@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMessage } from '../reducer/notificationReducer'
-import { likeBlog, removeBlog } from '../reducer/blogsReducer'
+import { likeBlog, removeBlog, commentBlog } from '../reducer/blogsReducer'
 import { Link, useLocation } from 'react-router-dom'
 import blogService from '../services/blogs'
 
@@ -12,6 +12,7 @@ const Blog = ({ blog }) => {
     const dispatch = useDispatch()
     const [xblog, setBlog] = useState([])
     const [visible, setVisible] = useState(false)
+    const [comment, setComment] = useState('')
 
 
     if(!blog){
@@ -50,7 +51,11 @@ const Blog = ({ blog }) => {
             }
         }
     }
-    console.log(blog.comments)
+    const handleComment = async (event) => {
+        event.preventDefault()
+        dispatch(commentBlog(blog.id, comment))
+        setComment('')
+    }
     if (visible) {
         return (
             <div className='px-4 py-2 my-4
@@ -66,6 +71,23 @@ const Blog = ({ blog }) => {
                 >remove</button></p>}
                 <div>
                     <h2 className="my-4 text-xl">Comments</h2>
+                    <form onSubmit={handleComment}>
+                        <input
+                            type="text"
+                            id='comment'
+                            value={comment}
+                            name="Comment"
+                            onChange={({ target }) => setComment(target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            className="
+                            text-xs px-4 py-2  rounded-lg bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md
+                            "
+                        />
+                        <button type="submit"
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-green-300 my-1 mx-4 py-2 px-4 rounded"
+                        >add comment</button>
+                    </form>
                     <ul className="list-disc list-inside my-2 px-5">
                         {blog.comments.map((comment, index) =>
                             <li key={index}>{comment}</li>

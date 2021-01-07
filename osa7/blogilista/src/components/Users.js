@@ -10,7 +10,6 @@ const Users = () => {
             setUsers(re)
         })
     },[])
-    console.log(users)
     return (
         <div className="py-2">
             <h1 className="text-3xl">Users</h1>
