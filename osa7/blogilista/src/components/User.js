@@ -13,8 +13,8 @@ const User = () => {
     const userBlogs = blogs.filter(x => x.user.id === id)
 
     useEffect(() => {
-        userService.getById(id).then(re => {
-            setUser(re)
+        userService.getAll(id).then(re => {
+            setUser(re.find(x => x.id === id))
         })
     },[])
     return (
