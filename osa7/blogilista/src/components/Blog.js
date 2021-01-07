@@ -50,7 +50,7 @@ const Blog = ({ blog }) => {
             }
         }
     }
-
+    console.log(blog.comments)
     if (visible) {
         return (
             <div className='px-4 py-2 my-4
@@ -64,6 +64,14 @@ const Blog = ({ blog }) => {
                 { user.username === blog.user.username && <p><button id='btn-remove' onClick={deleteBlog}
                     className="bg-red-600 my-1 py-1 px-2 rounded text-white"
                 >remove</button></p>}
+                <div>
+                    <h2 className="my-4 text-xl">Comments</h2>
+                    <ul className="list-disc list-inside my-2 px-5">
+                        {blog.comments.map((comment, index) =>
+                            <li key={index}>{comment}</li>
+                        )}
+                    </ul>
+                </div>
             </div>
         )
     }
