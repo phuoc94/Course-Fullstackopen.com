@@ -149,6 +149,8 @@ const resolvers = {
     addBook: (root, args) => {
       const book = { ...args, id: uuid() }
       books = books.concat(book)
+      const author = {name: args.author, id: uuid()}
+      authors = authors.concat(author)
       return book
     },
   }
