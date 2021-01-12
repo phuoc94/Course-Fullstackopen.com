@@ -16,8 +16,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
   .catch((error) => {
     console.log('error connection to MongoDB:', error.message)
   })
-  const books = []
-  const authors = []
 const typeDefs = gql`
   type Book {
     title: String!
