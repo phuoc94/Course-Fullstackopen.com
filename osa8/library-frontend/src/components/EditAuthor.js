@@ -14,7 +14,6 @@ export const EditAuthor = () => {
   const submit = async (event) => {
     event.preventDefault()
     const name = selectedOption.value
-    console.log(name)
     editAuthor({variables: { name, born: parseInt(born)}})
     setSelectedOption(null)
     setBorn('')
