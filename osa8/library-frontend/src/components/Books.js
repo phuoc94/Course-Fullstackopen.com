@@ -8,22 +8,26 @@ const Books = (props) => {
   const [getBooks, result] = useLazyQuery(BOOKS_BY_GEN)
   const [filter, setFilter] = useState(null)
   const [books, setBooks] = useState([])
-  
+  const [allBooks, setAllBooks] = useState([])
+
   useEffect(() => {
     if (result.data) {
-        setBooks(result.data.allBooks)
+      setBooks(result.data.allBooks)
     }
 }, [setBooks, result])
 
   useEffect(() => {
     if (filter) {
         getBooks({ variables: { genre: filter } })
+    }else{
+      setBooks(allBooks)
     }
-  }, [getBooks, filter])
+  }, [getBooks, filter, setBooks, allBooks])
   
   useEffect(() => {
     if (resultBooks.data) {
       setBooks(resultBooks.data.allBooks)
+      setAllBooks(resultBooks.data.allBooks)
     }
   }, [setBooks, resultBooks])
 
@@ -33,10 +37,9 @@ const Books = (props) => {
   if (result.loading)  {
     return <div>loading...</div>
   }
-
   const xgenres = []
-  Object.keys(books).forEach(key => {
-    const genres = books[key].genres
+  Object.keys(allBooks).forEach(key => {
+    const genres = allBooks[key].genres
     genres.forEach(genre => {
       if (!xgenres.includes(genre)){
         xgenres.push(genre)
