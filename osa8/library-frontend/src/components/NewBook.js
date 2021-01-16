@@ -10,7 +10,7 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([])
 
   const getQueries = () => {
-    let refetchQueriesArray = [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]
+    const refetchQueriesArray = [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]
     genres.map(gen => refetchQueriesArray.push(
       {query: BOOKS_BY_GEN, 
         variables: { genre: gen } 

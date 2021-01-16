@@ -69,6 +69,9 @@ const typeDefs = gql`
       username: String!
       password: String!
     ): Token
+    refetchQueries(
+      anything: String!
+    ): Token
   }
 
   type Subscription {
@@ -105,6 +108,7 @@ const resolvers = {
   Author: {
     bookCount: async (root) => {
       const author = await Author.findOne({ name: root.name })
+      console.log('find')
       return Book.find( {author}).count()
     }
   },
@@ -189,6 +193,9 @@ const resolvers = {
       }
   
       return { value: jwt.sign(userForToken, JWT_SECRET) }
+    },
+    refetchQueries: async (root, args) => {
+      return { value: 'success' }
     }
   },
   Subscription: {

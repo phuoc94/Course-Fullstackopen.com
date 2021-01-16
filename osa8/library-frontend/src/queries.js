@@ -90,3 +90,12 @@ export const BOOK_ADDED = gql`
   
 ${BOOK_DETAILS}
 `
+
+export const REFETCH = gql`
+  mutation{
+    refetchQueries(anything:"subscription refetchQueries"),
+    {
+      value
+    }
+  }
+`
