@@ -28,7 +28,7 @@ export const Recommend = (props) => {
     return (
         <div>
             <h2>recommendations</h2>
-            <p>books in your favorite genre <strong>{user.data.me.favoriteGenre}</strong></p>
+            <p>books in your favorite genre <strong>{user && user.data.me.favoriteGenre}</strong></p>
             
             <table>
         <tbody>
