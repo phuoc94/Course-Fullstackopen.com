@@ -143,6 +143,7 @@ const resolvers = {
             invalidArgs: args,
           })
         }
+        pubsub.publish('BOOK_ADDED', { bookAdded: book })
         return book
       }
     },
