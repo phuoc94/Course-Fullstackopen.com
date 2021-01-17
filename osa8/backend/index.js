@@ -100,16 +100,15 @@ const resolvers = {
         return null
       }
     },
-    allAuthors: () => Author.find({}),
+    allAuthors: async () => {
+      const authors = await Author.find({})
+      authors.map(author => {
+        author.bookCount = author.books.length
+      } )
+      return authors
+    },
     me: (root, args, context) => {
       return context.currentUser
-    }
-  },
-  Author: {
-    bookCount: async (root) => {
-      const author = await Author.findOne({ name: root.name })
-      console.log('find')
-      return Book.find( {author}).count()
     }
   },
   Mutation: {
@@ -130,6 +129,8 @@ const resolvers = {
         }
         const book = new Book({ ...args, author })
         try {
+          author.books = author.books.concat(book._id);
+          await author.save();
           await book.save()
         } catch (error) {
           throw new UserInputError(error.message, {
@@ -141,6 +142,8 @@ const resolvers = {
       }else{
         const book = new Book({ ...args, author })
         try {
+          author.books = author.books.concat(book._id);
+          await author.save();
           await book.save()
         } catch (error) {
           throw new UserInputError(error.message, {
