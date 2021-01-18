@@ -42,4 +42,11 @@ const calculateExercises = (list: number[], target: number): Result => {
     }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1],2))
+const target: number = parseFloat(process.argv[2])
+const list: number[] = process.argv.splice(3, process.argv.length).map(x => parseFloat(x))
+
+if(list){
+    console.log(calculateExercises(list, target))
+}else{
+    console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1],2))
+}
