@@ -9,7 +9,7 @@ interface Result {
 }
 type rating = 1 | 2 | 3;
 
-const calculateExercises = (list: number[], target: number): Result => {
+export const calculateExercises = (list: number[], target: number): Result => {
     const sum: number = list.reduce(
         (sum, h) => sum + h,0
     );

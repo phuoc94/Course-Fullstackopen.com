@@ -1,11 +1,15 @@
 import express from 'express'
 import { calculateBmi } from './bmiCalculator'
-const app = express();
+import { calculateExercises } from './exerciseCalculator'
 
-app.get('/bmi', (_req, res) => {
-    if(_req.query.height && _req.query.weight){
-        const weight: number = parseFloat(_req.query.weight as string)
-        const height: number =  parseFloat(_req.query.height as string)
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.json());
+
+app.get('/bmi', (req, res) => {
+    if(req.query.height && req.query.weight){
+        const weight: number = parseFloat(req.query.weight as string)
+        const height: number =  parseFloat(req.query.height as string)
         const bmi: string = calculateBmi(height, weight)
         res.send({
             weight,
@@ -18,6 +22,23 @@ app.get('/bmi', (_req, res) => {
         })
     }
 });
+
+app.post('/exercises', (req, res) => {
+
+    interface Body {
+        daily_exercises: number[],
+        target: number
+    }
+
+    const {daily_exercises, target} = req.body as Body
+    if(daily_exercises && target){
+        res.send(calculateExercises(daily_exercises,target))
+    }else{
+        res.send({
+            error: "malformatted parameters"
+        })
+    }
+})
 
 const PORT = 3003;
 
