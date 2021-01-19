@@ -1,6 +1,6 @@
 
 
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
     const bmi: number = (weight/(height*height))*10000
     const Categories: { [index: number]: string; } = {
         15: 'Very severely underweight',
