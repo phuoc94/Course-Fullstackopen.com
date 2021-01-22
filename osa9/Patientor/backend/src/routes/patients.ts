@@ -1,5 +1,7 @@
 import express from 'express';
 import patientsService from '../services/patientsService';
+import utils from '../utils';
+
 const router = express.Router();
 
 router.get('/', (_req, res) => {
@@ -7,15 +9,17 @@ router.get('/', (_req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { name, dateOfBirth, ssn, gender, occupation } = req.body;
-  const newPatient = patientsService.addEntry(
-    name,
-    dateOfBirth,
-    ssn,
-    gender,
-    occupation
-  );
-  res.json(newPatient);
+  try {
+    const newPatient = utils.toNewPatientEntry(req.body);
+    const addedPatient = patientsService.addEntry(newPatient);
+    res.json(addedPatient);
+  } catch (e) {
+    if(e instanceof Error) {
+      res.status(400).send(e.message);
+    }else {
+        throw e;
+    }
+  }
 });
 
 export default router;
