@@ -1,5 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { PartType } from './types';
+
+const Header: React.FC<{name: string}> = ({name}) => (
+    <h1>{name}</h1>
+);
+
+const Part: React.FC<{part: PartType}> = ({part}) => (
+    <p>{part.name} {part.exerciseCount}</p>
+)
+
+const Content: React.FC<{courseParts: PartType[]}> = ({courseParts}) => (
+  <div>
+    {courseParts.map((part) => 
+      <Part part={part} key={part.name}/>
+    )}
+  </div>
+);
+
+const Total: React.FC<{courseParts: PartType[]}> = ({courseParts}) => (
+  <p>
+    Number of exercises{" "}
+    {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+  </p>
+);
+
 
 const App: React.FC = () => {
   const courseName = "Half Stack application development";
@@ -20,20 +45,9 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <h1>{courseName}</h1>
-      <p>
-        {courseParts[0].name} {courseParts[0].exerciseCount}
-      </p>
-      <p>
-        {courseParts[1].name} {courseParts[1].exerciseCount}
-      </p>
-      <p>
-        {courseParts[2].name} {courseParts[2].exerciseCount}
-      </p>
-      <p>
-        Number of exercises{" "}
-        {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
-      </p>
+      <Header name={courseName} />
+      <Content courseParts={courseParts} />
+      <Total courseParts={courseParts} />
     </div>
   );
 };
