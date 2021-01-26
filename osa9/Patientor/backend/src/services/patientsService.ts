@@ -1,8 +1,8 @@
 import patientsData from '../../data/patients.json';
 import { v4 as uuid } from 'uuid';
-import { patientsNonSSN, newPatientEntry, Patient } from '../types';
+import { PublicPatient, newPatientEntry, Patient } from '../types';
 
-const getEntries = (): patientsNonSSN[] => {
+const getEntries = (): PublicPatient[] => {
   return patientsData.map(({ id, name, gender, occupation, dateOfBirth }) => ({
     id,
     name,
@@ -12,12 +12,16 @@ const getEntries = (): patientsNonSSN[] => {
   }));
 };
 
+const getPatientID = (id: string): Patient | undefined => {
+  return patientsData.find(x=> x.id === id);
+};
 
 const addEntry = (newPatientNonID: newPatientEntry): Patient => {
   const id: string = uuid();
   const newPatent = {
     id,
-    ...newPatientNonID
+    ...newPatientNonID,
+    entries: []
   };
   patientsData.push(newPatent);
   return newPatent;
@@ -25,5 +29,6 @@ const addEntry = (newPatientNonID: newPatientEntry): Patient => {
 
 export default {
   getEntries,
-  addEntry
+  addEntry,
+  getPatientID
 };
