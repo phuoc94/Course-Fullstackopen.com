@@ -17,26 +17,30 @@ const PatientPage = () => {
             const { data: patientAPI } = await axios.get<Patient>(
               `${apiBaseUrl}/patients/${id}`
             );
+            dispatch({ type: 'UPDATE_PATIENT', payload: patientAPI });
             setPatient(patientAPI);
           } catch (e) {
             console.error(e);
           }
         };
-        fetchPatient();
-      }, [dispatch, id]);
-      console.log(patients);
-      const getIcon = (gender: Gender) => {
-        switch (gender) {
-            case 'male':
-              return 'mars';
+        if (patients[id] && patients[id].ssn) {
+          setPatient(patients[id]);
+        } else {
+          fetchPatient();
+        }
+      }, [dispatch, id, patients]);
+    const getIcon = (gender: Gender) => {
+      switch (gender) {
+          case 'male':
+            return 'mars';
       
-            case 'female':
-              return 'venus';
+          case 'female':
+            return 'venus';
       
-            default:
-              return 'genderless';
-          }
-      };
+          default:
+            return 'genderless';
+        }
+    };
 
     return (
         <div>
