@@ -2,7 +2,7 @@ import React from 'react';
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { apiBaseUrl } from "../constants";
-import { useStateValue } from "../state";
+import { useStateValue, updatePatient } from "../state";
 import { Patient,Gender } from "../types";
 import { Icon } from 'semantic-ui-react';
 
@@ -17,7 +17,7 @@ const PatientPage = () => {
             const { data: patientAPI } = await axios.get<Patient>(
               `${apiBaseUrl}/patients/${id}`
             );
-            dispatch({ type: 'UPDATE_PATIENT', payload: patientAPI });
+            dispatch(updatePatient(patientAPI));
             setPatient(patientAPI);
           } catch (e) {
             console.error(e);
