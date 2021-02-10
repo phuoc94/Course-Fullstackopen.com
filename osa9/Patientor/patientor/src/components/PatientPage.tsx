@@ -5,6 +5,7 @@ import { apiBaseUrl } from "../constants";
 import { useStateValue, updatePatient } from "../state";
 import { Patient,Gender } from "../types";
 import { Icon } from 'semantic-ui-react';
+import Entries from './Entries';
 
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -51,7 +52,7 @@ const PatientPage = () => {
                 ssn:{patient.ssn}<br/>
                 occupation:{patient.occupation}
             </p>
-            
+            <Entries {...patient} />
             </>
         )}
         </div>
