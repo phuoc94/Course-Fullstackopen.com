@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Button, Divider, Header, Container } from "semantic-ui-react";
 
 import { apiBaseUrl } from "./constants";
-import { useStateValue, setPatientList } from "./state";
-import { Patient } from "./types";
+import { useStateValue, setPatientList, setDiagnosisList } from "./state";
+import { Patient, Diagnosis } from "./types";
 
 import PatientListPage from "./PatientListPage";
 import PatientPage from "./components/PatientPage";
@@ -26,7 +26,21 @@ const App: React.FC = () => {
         console.error(e);
       }
     };
+    const fetchDiagnoses = async () => {
+      try {
+        console.log('fetch D');
+        const { data: DiagnosisAPI } = await axios.get<Diagnosis[]>(
+          `${apiBaseUrl}/diagnoses/`
+        );
+        dispatch(setDiagnosisList(DiagnosisAPI));
+
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchDiagnoses();
     fetchPatientList();
+
   }, [dispatch]);
 
   return (

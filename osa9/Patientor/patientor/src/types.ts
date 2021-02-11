@@ -1,4 +1,5 @@
 export interface Diagnosis {
+  //remove
   code: string;
   name: string;
   latin?: string;

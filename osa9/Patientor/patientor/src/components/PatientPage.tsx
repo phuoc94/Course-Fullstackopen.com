@@ -10,7 +10,8 @@ import Entries from './Entries';
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
     const [patient, setPatient] = React.useState<Patient | undefined>();
-    const [{ patients }, dispatch] = useStateValue();
+    const [{ patients, diagnosis }, dispatch] = useStateValue();
+
     React.useEffect(() => {
         const fetchPatient = async () => {
           try {
@@ -29,7 +30,8 @@ const PatientPage = () => {
         } else {
           fetchPatient();
         }
-      }, [dispatch, id, patients]);
+
+      }, [dispatch, id, patients, diagnosis]);
     const getIcon = (gender: Gender) => {
       switch (gender) {
           case 'male':

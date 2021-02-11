@@ -1,8 +1,10 @@
 import React from 'react';
 import { Patient, Entry, Diagnosis } from "../types";
+import { useStateValue } from "../state";
 
 
 const Entries = (patient: Patient) => {
+    const [{ diagnosis }] = useStateValue();
     return (
         <div>
             <h2>entries</h2>
@@ -15,8 +17,8 @@ const Entries = (patient: Patient) => {
                         <ul>
                         {entry.diagnosisCodes &&
                             entry.diagnosisCodes.map(
-                            (diagonsisCode: Diagnosis['code']) => (
-                                <li key={diagonsisCode}>{diagonsisCode}</li>
+                            (diagonsisCode: Diagnosis['code'],) => (
+                                <li key={diagonsisCode}>{diagonsisCode} {diagnosis[diagonsisCode] && diagnosis[diagonsisCode].name}</li>
                             )
                         )}
                         </ul>
